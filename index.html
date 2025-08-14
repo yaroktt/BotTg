@@ -180,95 +180,88 @@
     </div>
 
     <script>
-        const prizes = [
-            "Алмазный набор",
-            "Ювелирное изделие",
-            "Драгоценный камень",
-            "Сертификат ювелира",
-            "Главный алмаз"
-        ];
-        
-        const strip = document.getElementById('strip');
-        const spinButton = document.getElementById('spin-button');
-        const resultDisplay = document.getElementById('result');
-        let isSpinning = false;
-        
-        // Initialize the roulette strip with items
-        function initializeStrip() {
-            strip.innerHTML = '';
-            // Create multiple copies to make infinite loop effect
-            for (let i = 0; i < 20; i++) {
-                const prizeIndex = i % prizes.length;
-                const item = document.createElement('div');
-                item.className = 'item';
-                
-                // Create container for diamond and number
-                const content = document.createElement('div');
-                content.style.display = 'flex';
-                content.style.flexDirection = 'column';
-                content.style.alignItems = 'center';
-                
-                // Add diamond emoji
-                const diamond = document.createElement('div');
-                diamond.className = 'diamond';
-                diamond.textContent = '💎';
-                
-                // Add number
-                const number = document.createElement('div');
-                number.textContent = prizeIndex + 1;
-                number.style.marginTop = '5px';
-                number.style.fontSize = '24px';
-                
-                content.appendChild(diamond);
-                content.appendChild(number);
-                item.appendChild(content);
-                
-                item.dataset.prize = prizes[prizeIndex];
-                strip.appendChild(item);
-            }
+    const prizes = [
+        "Алмазный набор",
+        "Ювелирное изделие",
+        "Драгоценный камень",
+        "Сертификат ювелира",
+        "Главный алмаз"
+    ];
+    
+    const strip = document.getElementById('strip');
+    const spinButton = document.getElementById('spin-button');
+    const resultDisplay = document.getElementById('result');
+    let isSpinning = false;
+    
+    function initializeStrip() {
+        strip.innerHTML = '';
+        for (let i = 0; i < 20; i++) {
+            const prizeIndex = i % prizes.length;
+            const item = document.createElement('div');
+            item.className = 'item';
+            
+            const content = document.createElement('div');
+            content.style.display = 'flex';
+            content.style.flexDirection = 'column';
+            content.style.alignItems = 'center';
+            
+            const diamond = document.createElement('div');
+            diamond.className = 'diamond';
+            diamond.textContent = '💎';
+            
+            const number = document.createElement('div');
+            number.textContent = prizeIndex + 1;
+            number.style.marginTop = '5px';
+            number.style.fontSize = '24px';
+            
+            content.appendChild(diamond);
+            content.appendChild(number);
+            item.appendChild(content);
+            
+            item.dataset.prize = prizes[prizeIndex];
+            strip.appendChild(item);
         }
+    }
+    
+    function startRoulette() {
+        if (isSpinning) return;
         
-        function startRoulette() {
-            if (isSpinning) return;
-            
-            isSpinning = true;
-            spinButton.disabled = true;
-            resultDisplay.textContent = '';
-            
-            // Reset position
-            strip.style.transition = 'none';
-            strip.style.transform = 'translateX(0)';
-            void strip.offsetWidth; // Trigger reflow
-            
-            // Start spinning
-            strip.style.transition = 'transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
-            
-            // Randomize the spin (3-5 full rotations plus random offset)
-            const itemWidth = 130; // 120px width + 10px margin
-            const totalItems = 20;
-            const minSpin = 3 * prizes.length * itemWidth;
-            const randomOffset = Math.floor(Math.random() * (prizes.length * itemWidth));
-          const finalPosition = -(minSpin + randomOffset);
-            
-            strip.style.transform = translateX(${finalPosition}px);
-            
-            // Determine the result after spinning
-            setTimeout(() => {
-                isSpinning = false;
-                spinButton.disabled = false;
-                
-                // Calculate which prize is centered (simplified)
-                const position = -finalPosition % (prizes.length * itemWidth);
-                const prizeIndex = Math.floor(position / itemWidth);
-                const winningPrize = prizes[prizeIndex];
-                
-                resultDisplay.innerHTML = Поздравляем! Вы выиграли: <span class="diamond">💎</span> ${winningPrize}! <span class="diamond">💎</span>;
-            }, 5000);
-        }
+        isSpinning = true;
+        spinButton.disabled = true;
+        resultDisplay.textContent = '';
         
-        // Initialize when page loads
-        window.onload = initializeStrip;
-    </script>
+        // Reset position instantly
+        strip.style.transition = 'none';
+        strip.style.transform = 'translateX(0px)';
+        void strip.offsetWidth; // reflow
+        
+        // Spin settings
+        const itemWidth = 130; // 120px + 10px margin
+        const spins = 3 * prizes.length * itemWidth; // 3 full loops
+        const randomOffset = Math.floor(Math.random() * (prizes.length * itemWidth));
+        const finalPosition = -(spins + randomOffset);
+        
+        // Animate spin
+        strip.style.transition = 'transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
+        strip.style.transform = `translateX(${finalPosition}px)`;
+        
+        // Show result after spin
+        setTimeout(() => {
+            isSpinning = false;
+            spinButton.disabled = false;
+            
+            // Find which prize is aligned with pointer
+            const totalOffset = (spins + randomOffset) % (prizes.length * itemWidth);
+            const prizeIndex = Math.floor(totalOffset / itemWidth);
+            const winningPrize = prizes[prizeIndex];
+            
+            resultDisplay.innerHTML = `Поздравляем! Вы выиграли: <span class="diamond">💎</span> ${winningPrize}! <span class="diamond">💎</span>`;
+        }, 5000);
+    }
+    
+    window.onload = initializeStrip;
+</script>
+
 
 </body>
 </html>
