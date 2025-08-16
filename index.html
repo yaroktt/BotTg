@@ -1,144 +1,192 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Алмазная Рулетка</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>💎 GiftChanceSpin 💎</title>
     <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            text-align: center; 
-            margin: 0; 
-            padding: 0; 
-            background: #111; 
-            color: white; 
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f8ff;
+            color: #333;
+            padding: 20px;
         }
-        h1 { 
-            margin-top: 20px; 
-            color: #b9f2ff; /* Diamond color */
-            text-shadow: 0 0 5px rgba(185, 242, 255, 0.5);
+
+        h1 {
+            color: #4169e1;
+            font-size: 36px;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
+
+        .balance-container {
+            font-size: 24px;
+            margin-bottom: 20px;
+            background-color: #fff;
+            padding: 10px 20px;
+            border-radius: 50px;
+            display: inline-block;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .balance {
+            font-weight: bold;
+            color: #4169e1;
+        }
+
         #roulette-container {
+            width: 100%;
+            overflow: hidden;
+            margin: 0 auto 30px;
+            position: relative;
+            max-width: 800px;
+        }
+
+        #roulette {
+            width: 100%;
+            height: 180px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            background-color: #fff;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .strip {
+            display: flex;
+            height: 100%;
+            width: max-content;
+            align-items: center;
+            will-change: transform;
+        }
+
+        .item {
+            width: 150px;
+            height: 150px;
+            margin: 0 10px;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin: 40px auto;
-            width: 90%;
-            max-width: 500px;
-            position: relative;
+            flex-direction: column;
+            background: linear-gradient(135deg, #e6f2ff, #d1e5ff);
+            border-radius: 15px;
+            border: 3px solid #4169e1;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
         }
-        #roulette { 
-            width: 100%;
-            height: 120px; 
-            overflow: hidden; 
-            border: 2px solid #b9f2ff; 
-            background: #222; 
-            position: relative;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(185, 242, 255, 0.3);
+
+        .item:hover {
+            transform: scale(1.05);
         }
-        .strip { 
-            display: flex; 
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            height: 120px; 
-            transition: transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99);
+
+        .diamond {
+            font-size: 50px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
-        .item { 
-            width: 120px; 
-            height: 120px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-size: 24px; 
-            background: linear-gradient(135deg, #e6f9ff, #b9f2ff); 
-            border: 1px solid #555; 
-            margin-right: 10px; 
-            border-radius: 10px; 
-            color: #0077aa; 
-            font-weight: bold;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
-        }
+
         .pointer {
             position: absolute;
             top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
+            left: 50%;
+            transform: translate(-50%, -50%);
             width: 0;
             height: 0;
-            border-left: 20px solid #b9f2ff;
-            border-top: 15px solid transparent;
-            border-bottom: 15px solid transparent;
+            border-left: 20px solid transparent;
+            border-right: 20px solid transparent;
+            border-top: 40px solid #ff4500;
             z-index: 10;
-            filter: drop-shadow(0 0 3px rgba(0,0,0,0.5));
+            filter: drop-shadow(0 0 5px rgba(0,0,0,0.3));
         }
-        button { 
-            padding: 12px 25px; 
-            font-size: 18px; 
-            margin: 20px; 
-            cursor: pointer; 
-            border-radius: 8px; 
-            border: none; 
-            background: linear-gradient(to bottom, #00a8ff, #0077aa); 
+
+        #spin-button {
+            background: linear-gradient(to right, #4169e1, #1e90ff);
             color: white;
-            font-weight: bold;
+            border: none;
+            padding: 15px 40px;
+            font-size: 20px;
+            border-radius: 50px;
+            cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
-        button:hover { 
-            background: linear-gradient(to bottom, #0077aa, #005588);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+
+        #spin-button:hover {
+            background: linear-gradient(to right, #1e90ff, #4169e1);
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
         }
-        button:disabled {
-            background: #555;
+
+        #spin-button:disabled {
+            background: #cccccc;
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
         }
-        .footer { 
-            background: #222; 
-            padding: 20px; 
-            margin-top: 30px; 
-            border-top: 1px solid #444; 
+
+        .cost-notice {
+            color: #ff4500;
+            font-size: 18px;
+            margin-bottom: 20px;
+            font-weight: bold;
         }
-        .prizes { 
-            max-width: 500px;
-            margin: 0 auto;
-            text-align: center; 
+
+        #result {
+            min-height: 60px;
+            margin: 20px 0;
+            font-size: 24px;
+            font-weight: bold;
+            color: #4169e1;
+            transition: all 0.5s;
         }
+
+        .result-highlight {
+            color: #ff4500;
+            font-size: 28px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .footer {
+            margin-top: 30px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .prizes {
+            text-align: left;
+        }
+
         .prize-item {
             display: flex;
             justify-content: space-between;
-            padding: 8px 15px;
-            margin: 5px 0;
-            background: rgba(185, 242, 255, 0.1);
-            border-radius: 5px;
+            margin: 15px 0;
+            font-size: 18px;
+            padding: 10px;
+            background-color: #f5f9ff;
+            border-radius: 10px;
         }
+
         .prize-name {
             font-weight: bold;
-            color: #b9f2ff;
-        }
-        #result {
-            margin-top: 20px;
-            font-size: 20px;
-            min-height: 30px;
-            color: #b9f2ff;
-            font-weight: bold;
-        }
-        .diamond {
-            font-size: 40px;
-            animation: sparkle 1s infinite alternate;
-        }
-        @keyframes sparkle {
-            from { text-shadow: 0 0 5px rgba(185, 242, 255, 0.7); }
-            to { text-shadow: 0 0 15px rgba(185, 242, 255, 1), 0 0 20px white; }
+            color: #4169e1;
         }
     </style>
 </head>
 <body>
-
-    <h1>💎 Алмазная Рулетка 💎</h1>
+    <h1>💎 GiftChanceSpin 💎</h1>
+    
+    <div class="balance-container">
+        Ваши алмазы: <span class="balance" id="balance">25</span>💎
+    </div>
+    
+    <div class="cost-notice">Каждый спин стоит 25💎</div>
     
     <div id="roulette-container">
         <div id="roulette">
@@ -151,117 +199,156 @@
 
     <div id="result"></div>
     
-    <button id="spin-button" onclick="startRoulette()">Крутить</button>
+    <button id="spin-button" onclick="startRoulette()">Крутить колесо! (25💎)</button>
 
     <div class="footer">
         <div class="prizes">
             <h3>Возможные призы:</h3>
             <div class="prize-item">
                 <span class="prize-name">💎 1:</span>
-                <span>Алмазный набор</span>
+                <span>10💎</span>
             </div>
             <div class="prize-item">
                 <span class="prize-name">💎 2:</span>
-                <span>Ювелирное изделие</span>
+                <span>15💎</span>
             </div>
             <div class="prize-item">
                 <span class="prize-name">💎 3:</span>
-                <span>Драгоценный камень</span>
+                <span>25💎</span>
             </div>
             <div class="prize-item">
                 <span class="prize-name">💎 4:</span>
-                <span>Сертификат ювелира</span>
+                <span>50💎</span>
             </div>
             <div class="prize-item">
                 <span class="prize-name">💎 5:</span>
-                <span>Главный алмаз</span>
+                <span>100💎</span>
             </div>
         </div>
     </div>
 
     <script>
-    const prizes = [
-        "Алмазный набор",
-        "Ювелирное изделие",
-        "Драгоценный камень",
-        "Сертификат ювелира",
-        "Главный алмаз"
-    ];
-    
-    const strip = document.getElementById('strip');
-    const spinButton = document.getElementById('spin-button');
-    const resultDisplay = document.getElementById('result');
-    let isSpinning = false;
-    
-    function initializeStrip() {
-        strip.innerHTML = '';
-        for (let i = 0; i < 20; i++) {
-            const prizeIndex = i % prizes.length;
-            const item = document.createElement('div');
-            item.className = 'item';
-            
-            const content = document.createElement('div');
-            content.style.display = 'flex';
-            content.style.flexDirection = 'column';
-            content.style.alignItems = 'center';
-            
-            const diamond = document.createElement('div');
-            diamond.className = 'diamond';
-            diamond.textContent = '💎';
-            
-            const number = document.createElement('div');
-            number.textContent = prizeIndex + 1;
-            number.style.marginTop = '5px';
-            number.style.fontSize = '24px';
-            
-            content.appendChild(diamond);
-            content.appendChild(number);
-            item.appendChild(content);
-            
-            item.dataset.prize = prizes[prizeIndex];
-            strip.appendChild(item);
+        const prizes = [
+            "10💎",
+            "15💎",
+            "25💎",
+            "50💎",
+            "100💎"
+        ];
+        
+        const strip = document.getElementById('strip');
+        const spinButton = document.getElementById('spin-button');
+        const resultDisplay = document.getElementById('result');
+        const balanceDisplay = document.getElementById('balance');
+        let isSpinning = false;
+        let balance = 25; // Starting balance
+        
+        // Update balance display
+        function updateBalance() {
+            balanceDisplay.textContent = balance;
+            // Disable button if not enough diamonds
+            spinButton.disabled = balance < 25;
         }
-    }
-    
-    function startRoulette() {
-        if (isSpinning) return;
         
-        isSpinning = true;
-        spinButton.disabled = true;
-        resultDisplay.textContent = '';
+        // Initialize the roulette strip with items
+        function initializeStrip() {
+            strip.innerHTML = '';
+            // Create 3 copies of the prize array for seamless looping
+            for (let i = 0; i < prizes.length * 3; i++) {
+                const prizeIndex = i % prizes.length;
+                const item = document.createElement('div');
+                item.className = 'item';
+                
+                // Create container for diamond and number
+                const content = document.createElement('div');
+                content.style.display = 'flex';
+                content.style.flexDirection = 'column';
+                content.style.alignItems = 'center';
+                
+                // Add diamond emoji
+                const diamond = document.createElement('div');
+                diamond.className = 'diamond';
+                diamond.textContent = '💎';
+                
+                // Add number
+                const number = document.createElement('div');
+                number.textContent = prizeIndex + 1;
+                number.style.marginTop = '5px';
+                number.style.fontSize = '24px';
+                number.style.fontWeight = 'bold';
+                number.style.color = '#4169e1';
+                
+                content.
+                appendChild(diamond);
+                content.appendChild(number);
+                item.appendChild(content);
+                
+                item.dataset.prize = prizes[prizeIndex];
+                strip.appendChild(item);
+            }
+        }
         
-        // Reset position instantly
-        strip.style.transition = 'none';
-        strip.style.transform = 'translateX(0px)';
-        void strip.offsetWidth; // reflow
-        
-        // Spin settings
-        const itemWidth = 130; // 120px + 10px margin
-        const spins = 3 * prizes.length * itemWidth; // 3 full loops
-        const randomOffset = Math.floor(Math.random() * (prizes.length * itemWidth));
-        const finalPosition = -(spins + randomOffset);
-        
-        // Animate spin
-        strip.style.transition = 'transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
-        strip.style.transform = `translateX(${finalPosition}px)`;
-        
-        // Show result after spin
-        setTimeout(() => {
-            isSpinning = false;
-            spinButton.disabled = false;
+        function startRoulette() {
+            if (isSpinning || balance < 25) return;
             
-            // Find which prize is aligned with pointer
-            const totalOffset = (spins + randomOffset) % (prizes.length * itemWidth);
-            const prizeIndex = Math.floor(totalOffset / itemWidth);
-            const winningPrize = prizes[prizeIndex];
+            // Deduct spin cost
+            balance -= 25;
+            updateBalance();
             
-            resultDisplay.innerHTML = `Поздравляем! Вы выиграли: <span class="diamond">💎</span> ${winningPrize}! <span class="diamond">💎</span>`;
-        }, 5000);
-    }
-    
-    window.onload = initializeStrip;
-</script>
-
-
+            isSpinning = true;
+            spinButton.disabled = true;
+            resultDisplay.textContent = 'Крутим...';
+            resultDisplay.className = '';
+            
+            // Reset position to the first set of prizes
+            strip.style.transition = 'none';
+            strip.style.transform = 'translateX(0)';
+            void strip.offsetWidth; // Trigger reflow
+            
+            // Start spinning with smooth infinite effect
+            strip.style.transition = 'transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99)';
+            
+            const itemWidth = 170; // 150px width + 20px margin
+            // Spin through all prizes twice, then land on a random prize
+            const baseSpin = prizes.length * itemWidth * 2;
+            const randomOffset = Math.floor(Math.random() * (prizes.length * itemWidth));
+            const targetPosition = -(baseSpin + randomOffset);
+            
+            strip.style.transform = translateX(${targetPosition}px);
+            
+            // When animation completes
+            setTimeout(() => {
+                // Calculate which prize was won
+                const position = Math.abs(targetPosition) % (prizes.length * itemWidth);
+                const prizeIndex = Math.floor(position / itemWidth);
+                const winningPrize = prizes[prizeIndex];
+                
+                // Extract the numeric value from the prize
+                const prizeValue = parseInt(winningPrize);
+                
+                // Add the prize to balance
+                balance += prizeValue;
+                updateBalance();
+                
+                // Show result with animation
+                resultDisplay.innerHTML = Поздравляем! Вы выиграли: <span class="diamond">💎</span> ${winningPrize}! <span class="diamond">💎</span>;
+                resultDisplay.className = 'result-highlight';
+                
+                // Reset position without animation
+                strip.style.transition = 'none';
+                const resetPosition = -(randomOffset);
+                strip.style.transform = translateX(${resetPosition}px);
+                
+                isSpinning = false;
+                spinButton.disabled = balance < 25;
+            }, 5000);
+        }
+        
+        // Initialize when page loads
+        window.onload = function() {
+            initializeStrip();
+            updateBalance(); // Set initial button state
+        };
+    </script>
 </body>
 </html>
